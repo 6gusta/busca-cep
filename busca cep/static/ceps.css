@@ -1,0 +1,75 @@
+body{
+    background-color: gray;
+    color: white;
+}
+h1{
+    color: white;
+    text-align: center;
+}
+#botao{
+    background-color: blue;
+    color: white;
+    vertical-align: top; 
+    display: inline-block;
+    width: 80px;
+    height: 50px;
+    margin-left: 1350px;
+    margin-top: -51px;
+}
+#busca{
+ 
+    width: 80%;
+    height: 50px;
+    background-color: white;
+    border: 1px solid #ccc;
+ 
+    margin-left: 100px;
+   
+    
+    
+}
+#cep{
+    display: none;
+    width: 50%;
+    height: 300px;
+    background-color: rgb(83, 81, 81);
+    color: white;
+ 
+    margin-left: 370px;
+    margin-top: 20px;
+    position: fixed;
+
+   
+}
+
+#fecharDiv {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    background-color: rgb(83, 81, 81);
+}
+#digite{
+    width: 1220px;
+    background-color: white;
+    height: 47px;
+    color: black;
+    font-size: 20px;
+}
+#resultado{
+    background-color: rgb(83, 81, 81);
+    text-align: center;
+    font-size: 30px;
+    margin-top: 40px;
+}
+#botao:hover{
+    background-color: rgb(6, 6, 103);
+}
+
+#rodes{
+    margin-top: 400px;
+    margin-left: 650px;
+    font-size: 25px;
+    
+}

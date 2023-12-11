@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca CEP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ceps.css') }}">
+    <link rel="stylesheet" href="cep.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
+    <!-- Inclua o link para a biblioteca FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-0mL5Y+1RqzB8fDwV1BkwjkJvx4A4wyP+MI/M7xm1Pf2clYpZ+Xvhuhf3/P9fc3OSxOfLyTe+1krdbEvuhha1aA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-LP4P6JLo9Co9J+KvH2ZP5dlHzUBBfz0ihG1xVZ4dovetR8+1QF6fj2tF+U6/rgXLn0X0B78eWQGGWJ1LvJiSzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+    <!-- Adicione a biblioteca InputMask -->
+<script src="https://rawgit.com/RobinHerbots/Inputmask/5.x/dist/jquery.inputmask.js"></script>
+
+
+
+</head>
+<body>
+    <header>
+        <label for="digite">
+            <h1>Busca de CEP</h1>
+        </label>
+        <div id="busca">
+            <input id="digite" type="text" placeholder="Digite o CEP" required="num">
+            
+        </div>
+        <button id="botao" required><b>Buscar</b></button>
+    </header>
+
+    <div id="cep">
+        <span id="fecharDiv" onclick="fecharDiv()">X</span>
+        <div id="resultado"> o campo esta vazio , tente novamente...</div>
+    </div>
+    
+    <footer id="rodes">
+        <p>github: 6gusta</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const botao = document.getElementById('botao');
+            const cepDiv = document.getElementById('cep');
+            const cepInput = document.getElementById('digite');
+            const fecharDivBtn = document.getElementById('fecharDiv');
+
+            botao.addEventListener('click', function() {
+                cepDiv.style.display = 'block';
+                botao.style.display = 'none';
+            });
+
+            // O código de buscarBtn estava com um ID errado
+            botao.addEventListener('click', function() {
+                const cep = cepInput.value;
+
+                if (!cep) {
+                    alert('Por favor, informe o CEP antes de realizar a busca.');
+                    return;
+                }
+
+                fetch(`/buscar_cep?cep=${cep}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.resultado === 'sucesso') {
+                            document.getElementById('resultado').innerHTML = `
+                                <p>CEP: ${data.dados.cep}</p>
+                                <p>Logradouro: ${data.dados.logradouro}</p>
+                                <p>Cidade: ${data.dados.localidade}</p>
+                                <p>Estado: ${data.dados.uf}</p>
+                            `;
+                        } else {
+                            alert('CEP não encontrado.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar CEP:', error);
+                        alert('Erro ao buscar CEP.');
+                    });
+            });
+
+            fecharDivBtn.addEventListener('click', function() {
+                cepDiv.style.display = 'none';
+                botao.style.display = 'block';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (!cepDiv.contains(event.target) && event.target !== botao) {
+                    cepDiv.style.display = 'none';
+                    botao.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+  <script>
+      
+
+       
+           function fecharDiv() {
+        document.getElementById('cep').style.display = 'none';
+        document.getElementById('botao').style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const botao = document.getElementById('botao');
+        const cepDiv = document.getElementById('cep');
+        const buscarBtn = document.getElementById('buscarBtn');
+        const cepInput = document.getElementById('digite');
+        const fecharDivBtn = document.getElementById('fecharDiv');
+
+        botao.addEventListener('click', function() {
+            const cep = cepInput.value.trim(); // Removendo espaços em branco
+
+            // Verifica se o input não está vazio antes de exibir a div
+            if (cep) {
+                cepDiv.style.display = 'block';
+                botao.style.display = 'none';
+            } else {
+                alert('Por favor, informe o CEP antes de realizar a busca.');
+            }
+        });
+
+        buscarBtn.addEventListener('click', function() {
+            const cep = cepInput.value.trim(); // Removendo espaços em branco
+
+            if (!cep) {
+                alert('Por favor, informe o CEP antes de realizar a busca.');
+                return;
+            }
+
+            fetch(`/buscar_cep?cep=${cep}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.resultado === 'sucesso') {
+                        cepDiv.innerHTML = `
+                            <p>CEP: ${data.dados.cep}</p>
+                            <p>Logradouro: ${data.dados.logradouro}</p>
+                            <p>Cidade: ${data.dados.localidade}</p>
+                            <p>Estado: ${data.dados.uf}</p>
+                        `;
+                        cepDiv.style.display = 'block';
+                    } else {
+                        alert('CEP não encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar CEP:', error);
+                    alert('Erro ao buscar CEP.');
+                });
+        });
+
+        fecharDivBtn.addEventListener('click', function() {
+            cepDiv.style.display = 'none';
+            botao.style.display = 'block';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (!cepDiv.contains(event.target) && event.target !== botao) {
+                cepDiv.style.display = 'none';
+                botao.style.display = 'block';
+            }
+        });
+    });
+
+    </script>
+</body>
+</html>
